@@ -1,2 +1,18 @@
 # athal_selection
-Neutrality tests for A. thaliana
+
+This repository contains the scripts used to create the compendium of _Arabidopsis thaliana_ signatures of selection described in the Bush et al. paper "Contrasting gene-level signatures of selection with reproductive fitness" where they were associated with empirical estimates of gene effect on fitness.
+Fitness data was obtained from [the unPAK project](https://arabidopsisunpak.org/) via the R package [unpakathon](https://github.com/stranda/unpakathon/).
+These scripts should be run in numbered order. They process data from the 1001 Genomes Project and calculate seven gene-level substitution and polymorphism-based statistics commonly used to infer selection: [dN/dS](https://doi.org/10.1093/molbev/msm088), [NI](https://pubmed.ncbi.nlm.nih.gov/13314400/) (Haldane’s estimator of the log-transformed odds ratio of the MK contingency table), [DOS](https://pubmed.ncbi.nlm.nih.gov/20837603/), [Tajima’s _D_](https://pubmed.ncbi.nlm.nih.gov/2513255/), [Fu and Li’s _D*_](https://pubmed.ncbi.nlm.nih.gov/8454210/), [Fay and Wu’s _H_](https://pubmed.ncbi.nlm.nih.gov/10880498/), and [Zeng’s _E_](https://pubmed.ncbi.nlm.nih.gov/16951063/).
+
+Prerequisites are detailed as comments in the 'requirements' section of each script and include sequence and annotation data from [Ensembl BioMart](https://plants.ensembl.org/biomart/martview), polymorphism data from [Cao _et al._ 2011](https://www.nature.com/articles/ng.911), [Gan _et al._ 2011](https://www.nature.com/articles/nature10414) and [the 1001 Genomes Project](https://1001genomes.org/data/GMI-MPI/releases/v3.1/intersection_snp_short_indel_vcf_with_quality_reference/) as well as the following programs, all of which should be accessible from the command line:
+(a) [needle, from EMBOSS v6.6.0](http://emboss.sourceforge.net/download/),
+(b) [yn00, from PAML v4.9h](http://abacus.gene.ucl.ac.uk/software/),
+(c) [nucmer, dnadiff, and show-aligns, from MUMmer v4.0.0](https://github.com/mummer4/mummer),
+(d) [tabix, from HTSlib v1.9](http://www.htslib.org/download/),
+(e) [vcf-consensus, from VCFtools v0.1.16](https://vcftools.github.io/index.html), and
+(f) [mafft, from MAFFT v7.407](https://mafft.cbrc.jp/alignment/software/).
+
+Version numbers are those used in the paper. To calculate the four frequency-spectrum measures (_D_, _D*_, _H_ and _E_), we also require the R package [PopGenome](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4069620/) v2.6.1.
+
+Full methods are detailed in the paper, but in brief are as follows. To calculate the 7 measures of sequence evolution we first need to obtain multiple sequence alignments of each CDS against the same reference genome and the same outgroup genome: _A. thaliana_ Col-0 (i.e. the TAIR10 accession) and _A. lyrata_, respectively.
+To do so, all variants in each of the 1135 VCFs of the 1001 Genomes Project were first applied to the Col-0 genome using vcf-consensus creating one multi-fasta file per accession. This was then partitioned into individual fasta files, one per chromosome, so that using nucmer one-to-one whole chromosome alignments could be made between the corresponding chromosomes of each accession and Col-0. Alignments were then parsed using the Col-0 gene coordinates to extract, from each accession, the sequence of each gene. As _A. thaliana_ shows extensive gene presence/absence variation, we confirmed that the extracted sequence corresponded to the Col-0 gene sequence by pairwise alignment with EMBOSS needle, excluding alignments with low reciprocal % identity. Finally, for each gene in this dataset, multiple sequence alignments were then made of the _A. thaliana_ CDS with the CDS of their _A. lyrata_ ortholog using MAFFT, with the resulting fasta files used as input to PAML (for obtaining substitution data necessary to calculate dN/dS, NI and DOS) and PopGenome (to calculate _D_, _D*_, _E_ and _H_).
