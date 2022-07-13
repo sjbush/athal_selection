@@ -1,6 +1,6 @@
 # athal_selection
 
-This repository contains the scripts used to create the compendium of _Arabidopsis thaliana_ signatures of selection described in the Bush et al. paper "Contrasting gene-level signatures of selection with reproductive fitness" where they were associated with empirical estimates of gene effect on fitness.
+This repository contains the scripts used to create the compendium of _Arabidopsis thaliana_ signatures of selection described in the Bush et al. paper ["Contrasting gene-level signatures of selection with reproductive fitness"](https://pubmed.ncbi.nlm.nih.gov/34918851/) where they were associated with empirical estimates of gene effect on fitness.
 Fitness data was obtained from [the unPAK project](https://arabidopsisunpak.org/) via the R package [unpakathon](https://github.com/stranda/unpakathon/).
 These scripts should be run in numbered order. They process data from the 1001 Genomes Project and calculate seven gene-level substitution and polymorphism-based statistics commonly used to infer selection: [dN/dS](https://doi.org/10.1093/molbev/msm088), [NI](https://pubmed.ncbi.nlm.nih.gov/13314400/) (Haldane’s estimator of the log-transformed odds ratio of the MK contingency table), [DOS](https://pubmed.ncbi.nlm.nih.gov/20837603/), [Tajima’s _D_](https://pubmed.ncbi.nlm.nih.gov/2513255/), [Fu and Li’s _D*_](https://pubmed.ncbi.nlm.nih.gov/8454210/), [Fay and Wu’s _H_](https://pubmed.ncbi.nlm.nih.gov/10880498/), and [Zeng’s _E_](https://pubmed.ncbi.nlm.nih.gov/16951063/).
 
